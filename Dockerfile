@@ -18,14 +18,18 @@ RUN apt-get update && apt-get install -y \
     && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
       > /etc/apt/sources.list.d/github-cli.list \
+    && curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.noarmor.gpg \
+      -o /usr/share/keyrings/tailscale-archive-keyring.gpg \
+    && curl -fsSL https://pkgs.tailscale.com/stable/debian/bookworm.tailscale-keyring.list \
+      -o /etc/apt/sources.list.d/tailscale.list \
     && apt-get update \
-    && apt-get install -y gh \
+    && apt-get install -y gh tailscale \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Codex CLI and T3 Code.
 RUN npm install --global \
     @openai/codex@latest \
-    t3@latest
+    t3@nightly
 
 COPY start.sh /usr/local/bin/start-t3
 RUN chmod +x /usr/local/bin/start-t3

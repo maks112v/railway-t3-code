@@ -1,13 +1,19 @@
-# Host T3 code on railway
+# Host T3 Code on Railway
 
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/Djc2ZX?referralCode=UEjeDc&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
-# Setup
+This template runs the nightly T3 Code server with Codex and GitHub CLI installed.
+
+## Setup
 
 1. Click the button above to deploy the application to Railway.
-2. Once the application is deployed you will need to get the connection token. You will find that in deploy logs of the latest deployment. On migrations to a different location, you will need to redeploy
-3. Open The public link from railway. You need to click on the instance, settings and there it should be
-4. Once you open the public url set by Railway, you will need to put this token there. 
-5. After that press ctrl + j or cmd + j do `codex login --device-auth` to login to the codex cli.
+2. Add any optional credentials during template setup:
+   - `OPENAI_API_KEY` authenticates Codex.
+   - `GH_TOKEN` authenticates GitHub CLI and Git over HTTPS.
+   - `TS_AUTHKEY` joins the instance to your tailnet. Use an ephemeral, pre-approved auth key when possible.
+   - `TS_HOSTNAME` sets the tailnet device name. It only applies when `TS_AUTHKEY` is set.
+3. After deployment, copy the connection token from the latest deployment logs. Redeploying in another region creates a new token.
+4. Open the Railway domain from the service's Settings page and enter the connection token.
+5. If you did not set `OPENAI_API_KEY`, open the terminal with <kbd>Ctrl</kbd>+<kbd>J</kbd> or <kbd>Cmd</kbd>+<kbd>J</kbd>, then run `codex login --device-auth`.
 
-You are free to setup other developer tools, mcps and connectors as you wish.
+When `TS_AUTHKEY` is set, the deployment logs print the private tailnet hostname. T3 Code is available there over HTTP on port 80. Commands started in T3 use Tailscale's userspace proxy, so they can reach other tailnet devices.
