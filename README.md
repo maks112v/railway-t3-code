@@ -17,3 +17,15 @@ This template runs the nightly T3 Code server with Codex and GitHub CLI installe
 5. If you did not set `OPENAI_API_KEY`, open the terminal with <kbd>Ctrl</kbd>+<kbd>J</kbd> or <kbd>Cmd</kbd>+<kbd>J</kbd>, then run `codex login --device-auth`.
 
 When `TS_AUTHKEY` is set, the deployment logs print the private tailnet hostname. T3 Code is available there over HTTP on port 80. Commands started in T3 use Tailscale's userspace proxy, so they can reach other tailnet devices.
+
+## Connect through T3 Connect
+
+T3 Connect links this deployment to your T3 Code account through its managed relay. After the deployment is running:
+
+1. Open T3 Code through its Railway domain or tailnet hostname.
+2. Open the terminal with <kbd>Ctrl</kbd>+<kbd>J</kbd> or <kbd>Cmd</kbd>+<kbd>J</kbd>.
+3. Run `t3 connect --headless`.
+4. Open the authorization URL printed in the terminal, sign in, then paste the returned code into the terminal.
+5. Run `t3 connect status` to confirm the environment is linked.
+
+This cannot run as a template checkbox because authorization needs interactive input. Run it once after deployment instead.
