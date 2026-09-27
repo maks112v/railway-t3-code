@@ -7,6 +7,7 @@ port="${PORT:-8080}"
 
 mkdir -p \
   "$HOME" \
+  "$HOME/.cli-proxy-api" \
   "$HOME/.codex" \
   "$HOME/.config" \
   "$HOME/.t3" \

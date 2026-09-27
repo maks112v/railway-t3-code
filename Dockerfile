@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
     bash \
+    tar \
     tini \
     build-essential \
     python3 \
@@ -30,6 +31,24 @@ RUN apt-get update && apt-get install -y \
 RUN npm install --global \
     @openai/codex@latest \
     t3@nightly
+
+# Install CLIProxyAPI without its systemd-oriented Linux installer. Configuration
+# and provider credentials belong in the persistent home directory at runtime.
+ARG CLIPROXYAPI_VERSION=8.0.2
+RUN architecture="$(dpkg --print-architecture)" \
+    && case "$architecture" in \
+      amd64) release_arch="amd64"; checksum="7478ab50f5b59cb34911547b2b527275bd0bf64f52687588dcce65a386f244ad" ;; \
+      arm64) release_arch="aarch64"; checksum="e790af5d63b6bd803c4173ef0d7dc8aaf8e5d66f822d28551c45fd5112918065" ;; \
+      *) echo "Unsupported architecture: $architecture" >&2; exit 1 ;; \
+    esac \
+    && archive="CLIProxyAPI_${CLIPROXYAPI_VERSION}_linux_${release_arch}.tar.gz" \
+    && curl -fsSL \
+      "https://github.com/router-for-me/CLIProxyAPI/releases/download/v${CLIPROXYAPI_VERSION}/${archive}" \
+      -o "/tmp/${archive}" \
+    && echo "${checksum}  /tmp/${archive}" | sha256sum --check --status \
+    && tar -xzf "/tmp/${archive}" -C /usr/local/bin cli-proxy-api \
+    && chmod +x /usr/local/bin/cli-proxy-api \
+    && rm "/tmp/${archive}"
 
 COPY start.sh /usr/local/bin/start-t3
 RUN chmod +x /usr/local/bin/start-t3

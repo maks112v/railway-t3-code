@@ -2,7 +2,9 @@
 
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/Djc2ZX?referralCode=UEjeDc&utm_medium=integration&utm_source=template&utm_campaign=generic)
 
-This template runs the nightly T3 Code server with Codex and GitHub CLI installed.
+This template runs the nightly T3 Code server with Codex, GitHub CLI, and CLIProxyAPI installed.
+
+CLIProxyAPI stores provider login tokens in `/data/home/.cli-proxy-api`. This is its default `~/.cli-proxy-api` authentication directory under the persistent home directory, so logins survive redeployments.
 
 ## Setup
 
